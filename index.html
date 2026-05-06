@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Voluntarios - Cruz Roja Peruana</title>
+    <title>Sistema de Voluntarios - Cruz Roja Peruana v2</title>
     
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -15,7 +15,7 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
-    <!-- SheetJS for Excel export -->
+    <!-- SheetJS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <style>
@@ -37,7 +37,7 @@
             padding: 20px;
         }
 
-        /* Login Styles */
+        /* Login */
         .login-container {
             display: flex;
             justify-content: center;
@@ -83,7 +83,7 @@
             font-size: 14px;
         }
 
-        .form-group input {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #e0e0e0;
@@ -92,7 +92,7 @@
             transition: all 0.3s;
         }
 
-        .form-group input:focus {
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
             border-color: #C8102E;
         }
@@ -149,7 +149,7 @@
             font-size: 18px;
         }
 
-        /* Dashboard Styles */
+        /* Dashboard */
         .dashboard {
             background: white;
             border-radius: 15px;
@@ -235,7 +235,7 @@
             overflow-y: auto;
         }
 
-        /* Stats Cards */
+        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -280,11 +280,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .table-header h2 {
             color: #333;
             font-size: 20px;
+        }
+
+        .search-filter-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            padding: 8px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            min-width: 200px;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #C8102E;
         }
 
         table {
@@ -377,6 +398,17 @@
             background: #5a6268;
         }
 
+        .btn-warning {
+            background: #ffc107;
+            color: #000;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-warning:hover {
+            background: #e0a800;
+        }
+
         /* Modal */
         .modal-overlay {
             position: fixed;
@@ -395,7 +427,7 @@
             background: white;
             padding: 30px;
             border-radius: 15px;
-            max-width: 600px;
+            max-width: 800px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
@@ -438,6 +470,32 @@
             color: #856404;
         }
 
+        /* Badges de nivel */
+        .badge-bronce {
+            background: #CD7F32;
+            color: white;
+        }
+
+        .badge-plata {
+            background: #C0C0C0;
+            color: #333;
+        }
+
+        .badge-oro {
+            background: #FFD700;
+            color: #333;
+        }
+
+        .badge-platino {
+            background: #E5E4E2;
+            color: #333;
+        }
+
+        .badge-diamante {
+            background: linear-gradient(135deg, #b9f2ff 0%, #6dd5fa 100%);
+            color: #0066cc;
+        }
+
         /* Activity Card */
         .activity-card {
             background: white;
@@ -466,9 +524,10 @@
             display: flex;
             gap: 10px;
             margin-top: 15px;
+            flex-wrap: wrap;
         }
 
-        /* Attendance Box */
+        /* Attendance */
         .attendance-box {
             background: #f8f9fa;
             padding: 20px;
@@ -484,6 +543,80 @@
             font-weight: 600;
             color: #C8102E;
         }
+
+        /* Ranking */
+        .ranking-card {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .ranking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .ranking-position {
+            font-size: 24px;
+            font-weight: bold;
+            color: #C8102E;
+            min-width: 40px;
+        }
+
+        .ranking-info {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .ranking-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .ranking-hours {
+            font-size: 20px;
+            font-weight: bold;
+            color: #C8102E;
+        }
+
+        /* Inscritos list */
+        .inscritos-list {
+            margin-top: 20px;
+        }
+
+        .inscrito-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .inscrito-info {
+            flex: 1;
+        }
+
+        .inscrito-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .time-input {
+            width: 80px;
+            padding: 6px;
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -495,18 +628,16 @@
         // ==========================================
         // FIREBASE CONFIGURATION
         // ==========================================
-        // ⚠️ REEMPLAZA ESTOS VALORES CON TUS CREDENCIALES DE FIREBASE
         const firebaseConfig = {
-            apiKey: "AIzaSyADG5KwGs3Nf8gNFysA-rR1tsSBvmp0qkc",
-  authDomain: "cruz-roja-voluntarios.firebaseapp.com",
-  databaseURL: "https://cruz-roja-voluntarios-default-rtdb.firebaseio.com",
-  projectId: "cruz-roja-voluntarios",
-  storageBucket: "cruz-roja-voluntarios.firebasestorage.app",
-  messagingSenderId: "950792439139",
-  appId: "1:950792439139:web:98f7ec073d99f2b6693f56"
+            apiKey: "AIzaSyA0G5kwGs3NrFgphFysa-rR1tsSBvmpQqkc",
+            authDomain: "cruz-roja-voluntarios.firebaseapp.com",
+            databaseURL: "https://cruz-roja-voluntarios-default-rtdb.firebaseio.com",
+            projectId: "cruz-roja-voluntarios",
+            storageBucket: "cruz-roja-voluntarios.firebasestorage.app",
+            messagingSenderId: "950792439139",
+            appId: "1:950792439139:web:987f2c073d99f2b6693f56"
         };
 
-        // Initialize Firebase
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -528,6 +659,20 @@
             return (nombre[0] + apellido1 + (apellido2 ? apellido2[0] : '')).toLowerCase();
         };
 
+        const getBadge = (horas) => {
+            if (horas >= 201) return { name: '💠 Diamante', class: 'badge-diamante' };
+            if (horas >= 101) return { name: '💎 Platino', class: 'badge-platino' };
+            if (horas >= 51) return { name: '🥇 Oro', class: 'badge-oro' };
+            if (horas >= 21) return { name: '🥈 Plata', class: 'badge-plata' };
+            return { name: '🥉 Bronce', class: 'badge-bronce' };
+        };
+
+        const calculateHoras = (asistencias) => {
+            return Object.values(asistencias || {}).reduce((sum, att) => {
+                return sum + (att.horasAprobadas || 0);
+            }, 0);
+        };
+
         // ==========================================
         // LOGIN COMPONENT
         // ==========================================
@@ -546,7 +691,6 @@
                     const userCredential = await auth.signInWithEmailAndPassword(email, password);
                     const uid = userCredential.user.uid;
                     
-                    // Get user data from database
                     const snapshot = await database.ref(`usuarios/${uid}`).once('value');
                     const userData = snapshot.val();
                     
@@ -569,7 +713,7 @@
                     <div className="login-box">
                         <div className="logo-section">
                             <h1>🏥 Cruz Roja Peruana</h1>
-                            <p>Sistema de Gestión de Voluntarios</p>
+                            <p>Sistema de Gestión de Voluntarios v2.0</p>
                         </div>
                         
                         {error && <div className="error-message">{error}</div>}
@@ -603,13 +747,6 @@
                                 {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
                             </button>
                         </form>
-
-                        <div style={{marginTop: '20px', padding: '15px', background: '#f8f9fa', borderRadius: '8px', fontSize: '13px'}}>
-                            <strong>Primer inicio:</strong><br/>
-                            <div style={{marginTop: '10px'}}>
-                                Coordinador: coordinador@crp.org / admin123
-                            </div>
-                        </div>
                     </div>
                 </div>
             );
@@ -626,13 +763,15 @@
             const [modalType, setModalType] = useState('');
             const [formData, setFormData] = useState({});
             const [loading, setLoading] = useState(true);
+            const [searchTerm, setSearchTerm] = useState('');
+            const [filterStatus, setFilterStatus] = useState('all');
+            const [selectedActivity, setSelectedActivity] = useState(null);
 
             useEffect(() => {
                 loadData();
             }, []);
 
             const loadData = () => {
-                // Load volunteers
                 database.ref('usuarios').on('value', (snapshot) => {
                     const data = snapshot.val();
                     if (data) {
@@ -644,7 +783,6 @@
                     setLoading(false);
                 });
 
-                // Load activities
                 database.ref('actividades').on('value', (snapshot) => {
                     const data = snapshot.val();
                     if (data) {
@@ -666,11 +804,9 @@
                     const password = 'temporal123';
                     const username = generateUsername(formData.nombreCompleto);
                     
-                    // Create auth user
                     const userCredential = await auth.createUserWithEmailAndPassword(formData.correo, password);
                     const uid = userCredential.user.uid;
 
-                    // Add to database
                     await database.ref(`usuarios/${uid}`).set({
                         nombreCompleto: formData.nombreCompleto,
                         correo: formData.correo,
@@ -678,21 +814,58 @@
                         usuario: username,
                         rol: 'voluntario',
                         primerIngreso: true,
-                        horasAcumuladas: 0
+                        horasAcumuladas: 0,
+                        estado: 'activo'
                     });
 
                     setShowModal(false);
                     setFormData({});
-                    alert(`Voluntario agregado exitosamente.\nEmail: ${formData.correo}\nContraseña temporal: temporal123`);
+                    alert(`Voluntario agregado.\nEmail: ${formData.correo}\nContraseña temporal: temporal123`);
                 } catch (error) {
-                    console.error('Error adding volunteer:', error);
+                    console.error('Error:', error);
                     alert('Error al agregar voluntario: ' + error.message);
+                }
+            };
+
+            const handleToggleStatus = async (uid, currentStatus) => {
+                const newStatus = currentStatus === 'activo' ? 'inactivo' : 'activo';
+                const action = newStatus === 'activo' ? 'activar' : 'desactivar';
+                
+                if (confirm(`¿Está seguro de ${action} este voluntario?`)) {
+                    try {
+                        await database.ref(`usuarios/${uid}`).update({ estado: newStatus });
+                    } catch (error) {
+                        alert('Error al cambiar estado');
+                    }
+                }
+            };
+
+            const handleDeleteVolunteer = async (uid) => {
+                const volunteer = volunteers.find(v => v.uid === uid);
+                const hasActivities = activities.some(act => 
+                    (act.inscritos && act.inscritos[uid]) || (act.asistencias && act.asistencias[uid])
+                );
+
+                if (hasActivities) {
+                    alert('No se puede eliminar. Este voluntario tiene actividades registradas. Desactívelo en su lugar.');
+                    return;
+                }
+
+                if (confirm(`¿Está seguro de ELIMINAR PERMANENTEMENTE a ${volunteer.nombreCompleto}?\n\nEsto no se puede deshacer.`)) {
+                    try {
+                        const user = firebase.auth().currentUser;
+                        await database.ref(`usuarios/${uid}`).remove();
+                        // Note: También deberías eliminar el usuario de Firebase Auth, pero requiere re-autenticación
+                        alert('Voluntario eliminado');
+                    } catch (error) {
+                        alert('Error al eliminar: ' + error.message);
+                    }
                 }
             };
 
             const handleAddActivity = async () => {
                 if (!formData.nombre || !formData.descripcion || !formData.lugar || !formData.fecha) {
-                    alert('Por favor complete todos los campos');
+                    alert('Por favor complete todos los campos obligatorios');
                     return;
                 }
 
@@ -703,6 +876,8 @@
                         descripcion: formData.descripcion,
                         lugar: formData.lugar,
                         fecha: formData.fecha,
+                        horaInicio: formData.horaInicio || '',
+                        horaFin: formData.horaFin || '',
                         estado: new Date(formData.fecha) >= new Date() ? 'activa' : 'inactiva',
                         inscritos: {},
                         asistencias: {}
@@ -712,18 +887,7 @@
                     setFormData({});
                     alert('Actividad creada exitosamente');
                 } catch (error) {
-                    console.error('Error adding activity:', error);
                     alert('Error al crear actividad');
-                }
-            };
-
-            const handleDeleteActivity = async (id) => {
-                if (confirm('¿Está seguro de eliminar esta actividad?')) {
-                    try {
-                        await database.ref(`actividades/${id}`).remove();
-                    } catch (error) {
-                        alert('Error al eliminar actividad');
-                    }
                 }
             };
 
@@ -733,32 +897,87 @@
                     nombre: activity.nombre,
                     descripcion: activity.descripcion,
                     lugar: activity.lugar,
-                    fecha: activity.fecha
+                    fecha: activity.fecha,
+                    horaInicio: activity.horaInicio || '',
+                    horaFin: activity.horaFin || ''
                 });
                 setModalType('editActivity');
                 setShowModal(true);
             };
 
             const handleUpdateActivity = async () => {
-                if (!formData.nombre || !formData.descripcion || !formData.lugar || !formData.fecha) {
-                    alert('Por favor complete todos los campos');
-                    return;
-                }
-
                 try {
                     await database.ref(`actividades/${formData.id}`).update({
                         nombre: formData.nombre,
                         descripcion: formData.descripcion,
                         lugar: formData.lugar,
                         fecha: formData.fecha,
+                        horaInicio: formData.horaInicio || '',
+                        horaFin: formData.horaFin || '',
                         estado: new Date(formData.fecha) >= new Date() ? 'activa' : 'inactiva'
                     });
 
                     setShowModal(false);
                     setFormData({});
-                    alert('Actividad actualizada exitosamente');
+                    alert('Actividad actualizada');
                 } catch (error) {
-                    alert('Error al actualizar actividad');
+                    alert('Error al actualizar');
+                }
+            };
+
+            const handleDeleteActivity = async (id) => {
+                if (confirm('¿Eliminar esta actividad?')) {
+                    try {
+                        await database.ref(`actividades/${id}`).remove();
+                    } catch (error) {
+                        alert('Error al eliminar');
+                    }
+                }
+            };
+
+            const handleViewInscritos = (activity) => {
+                setSelectedActivity(activity);
+                setModalType('viewInscritos');
+                setShowModal(true);
+            };
+
+            const handleToggleAsistencia = async (activityId, uid, currentStatus) => {
+                const newStatus = currentStatus === 'asistio' ? 'no_asistio' : 'asistio';
+                
+                try {
+                    if (newStatus === 'asistio') {
+                        await database.ref(`actividades/${activityId}/asistencias/${uid}`).update({
+                            estado: 'asistio',
+                            horasAprobadas: 0
+                        });
+                    } else {
+                        await database.ref(`actividades/${activityId}/asistencias/${uid}`).update({
+                            estado: 'no_asistio',
+                            horasAprobadas: 0,
+                            entrada: null,
+                            salida: null
+                        });
+                    }
+                } catch (error) {
+                    alert('Error al actualizar asistencia');
+                }
+            };
+
+            const handleUpdateHoras = async (activityId, uid, horas) => {
+                const horasNum = parseFloat(horas);
+                if (isNaN(horasNum) || horasNum < 0) {
+                    alert('Ingrese un número válido de horas');
+                    return;
+                }
+
+                try {
+                    await database.ref(`actividades/${activityId}/asistencias/${uid}`).update({
+                        horasAprobadas: horasNum,
+                        editadoPorCoordinador: true
+                    });
+                    alert('Horas actualizadas');
+                } catch (error) {
+                    alert('Error al actualizar horas');
                 }
             };
 
@@ -767,30 +986,30 @@
                 
                 volunteers.forEach(vol => {
                     const volActivities = activities.filter(act => 
-                        act.asistencias && act.asistencias[vol.uid]
+                        act.asistencias && act.asistencias[vol.uid] && act.asistencias[vol.uid].estado === 'asistio'
                     );
                     
                     if (volActivities.length === 0) {
                         reportData.push({
                             'Nombre Voluntario': vol.nombreCompleto,
+                            'Estado': vol.estado || 'activo',
                             'Actividad': 'Sin actividades',
                             'Fecha Actividad': '-',
                             'Lugar': '-',
-                            'Hora Entrada': '-',
-                            'Hora Salida': '-',
-                            'Horas Trabajadas': 0
+                            'Horas Trabajadas': 0,
+                            'Badge': getBadge(0).name
                         });
                     } else {
                         volActivities.forEach(act => {
                             const attendance = act.asistencias[vol.uid];
                             reportData.push({
                                 'Nombre Voluntario': vol.nombreCompleto,
+                                'Estado': vol.estado || 'activo',
                                 'Actividad': act.nombre,
                                 'Fecha Actividad': new Date(act.fecha).toLocaleDateString('es-PE'),
                                 'Lugar': act.lugar,
-                                'Hora Entrada': attendance.entrada ? new Date(attendance.entrada).toLocaleTimeString('es-PE') : '-',
-                                'Hora Salida': attendance.salida ? new Date(attendance.salida).toLocaleTimeString('es-PE') : '-',
-                                'Horas Trabajadas': attendance.horasAprobadas || 0
+                                'Horas Trabajadas': attendance.horasAprobadas || 0,
+                                'Badge': getBadge(calculateHorasVoluntario(vol.uid)).name
                             });
                         });
                     }
@@ -803,22 +1022,15 @@
                 XLSX.utils.book_append_sheet(wb, ws1, "Reporte Detallado");
                 
                 const summaryData = volunteers.map(vol => {
-                    const totalHoras = activities.reduce((sum, act) => {
-                        if (act.asistencias && act.asistencias[vol.uid]) {
-                            return sum + (act.asistencias[vol.uid].horasAprobadas || 0);
-                        }
-                        return sum;
-                    }, 0);
-                    
-                    const actividadesCount = activities.filter(act => 
-                        act.asistencias && act.asistencias[vol.uid]
-                    ).length;
+                    const totalHoras = calculateHorasVoluntario(vol.uid);
+                    const badge = getBadge(totalHoras);
                     
                     return {
                         'Nombre Voluntario': vol.nombreCompleto,
+                        'Estado': vol.estado || 'activo',
                         'Año Ingreso': vol.anoIngreso,
-                        'Total Actividades': actividadesCount,
-                        'Total Horas': totalHoras.toFixed(2)
+                        'Total Horas': totalHoras.toFixed(2),
+                        'Badge': badge.name
                     };
                 });
                 
@@ -829,17 +1041,41 @@
                 XLSX.writeFile(wb, `Reporte_Voluntarios_${fecha}.xlsx`);
             };
 
+            const calculateHorasVoluntario = (uid) => {
+                return activities.reduce((sum, act) => {
+                    if (act.asistencias && act.asistencias[uid] && act.asistencias[uid].estado === 'asistio') {
+                        return sum + (act.asistencias[uid].horasAprobadas || 0);
+                    }
+                    return sum;
+                }, 0);
+            };
+
+            const filteredVolunteers = volunteers.filter(vol => {
+                const matchesSearch = vol.nombreCompleto.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                    vol.correo.toLowerCase().includes(searchTerm.toLowerCase());
+                const matchesFilter = filterStatus === 'all' || vol.estado === filterStatus || (!vol.estado && filterStatus === 'activo');
+                return matchesSearch && matchesFilter;
+            });
+
             const renderDashboard = () => {
+                const activeVolunteers = volunteers.filter(v => v.estado === 'activo' || !v.estado).length;
                 const activeActivities = activities.filter(a => a.estado === 'activa').length;
-                const totalHoras = volunteers.reduce((sum, v) => sum + (v.horasAcumuladas || 0), 0);
+                const totalHoras = volunteers.reduce((sum, v) => sum + calculateHorasVoluntario(v.uid), 0);
+
+                // Ranking
+                const ranking = volunteers
+                    .map(v => ({ ...v, totalHoras: calculateHorasVoluntario(v.uid) }))
+                    .filter(v => v.estado === 'activo' || !v.estado)
+                    .sort((a, b) => b.totalHoras - a.totalHoras)
+                    .slice(0, 10);
 
                 return (
                     <div>
                         <h2 style={{marginBottom: '30px', color: '#333'}}>Panel de Control</h2>
                         <div className="stats-grid">
                             <div className="stat-card">
-                                <h3>Total Voluntarios</h3>
-                                <div className="value">{volunteers.length}</div>
+                                <h3>Voluntarios Activos</h3>
+                                <div className="value">{activeVolunteers}</div>
                             </div>
                             <div className="stat-card">
                                 <h3>Actividades Activas</h3>
@@ -851,7 +1087,30 @@
                             </div>
                             <div className="stat-card">
                                 <h3>Horas Totales</h3>
-                                <div className="value">{totalHoras}</div>
+                                <div className="value">{totalHoras.toFixed(0)}</div>
+                            </div>
+                        </div>
+
+                        <div className="table-container" style={{marginBottom: '30px'}}>
+                            <div className="table-header">
+                                <h2>🏆 Ranking de Voluntarios - Top 10</h2>
+                            </div>
+                            <div style={{padding: '20px'}}>
+                                {ranking.map((vol, index) => {
+                                    const badge = getBadge(vol.totalHoras);
+                                    return (
+                                        <div key={vol.uid} className="ranking-card">
+                                            <div className="ranking-position">
+                                                {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `#${index + 1}`}
+                                            </div>
+                                            <div className="ranking-info">
+                                                <div className="ranking-name">{vol.nombreCompleto}</div>
+                                                <span className={`badge ${badge.class}`}>{badge.name}</span>
+                                            </div>
+                                            <div className="ranking-hours">{vol.totalHoras.toFixed(1)} hrs</div>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
 
@@ -864,6 +1123,7 @@
                                     <tr>
                                         <th>Actividad</th>
                                         <th>Fecha</th>
+                                        <th>Horario</th>
                                         <th>Lugar</th>
                                         <th>Inscritos</th>
                                         <th>Estado</th>
@@ -874,6 +1134,7 @@
                                         <tr key={act.id}>
                                             <td>{act.nombre}</td>
                                             <td>{new Date(act.fecha).toLocaleDateString('es-PE')}</td>
+                                            <td>{act.horaInicio && act.horaFin ? `${act.horaInicio} - ${act.horaFin}` : '-'}</td>
                                             <td>{act.lugar}</td>
                                             <td>{act.inscritos ? Object.keys(act.inscritos).length : 0}</td>
                                             <td>
@@ -895,30 +1156,77 @@
                     <div className="table-container">
                         <div className="table-header">
                             <h2>Gestión de Voluntarios</h2>
-                            <button className="btn btn-add" onClick={() => { setModalType('addVolunteer'); setShowModal(true); }}>
-                                + Agregar Voluntario
-                            </button>
+                            <div className="search-filter-container">
+                                <input 
+                                    type="text"
+                                    className="search-box"
+                                    placeholder="Buscar por nombre o correo..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                                <select 
+                                    className="search-box"
+                                    value={filterStatus}
+                                    onChange={(e) => setFilterStatus(e.target.value)}
+                                    style={{minWidth: '150px'}}
+                                >
+                                    <option value="all">Todos</option>
+                                    <option value="activo">Activos</option>
+                                    <option value="inactivo">Inactivos</option>
+                                </select>
+                                <button className="btn btn-add" onClick={() => { setModalType('addVolunteer'); setFormData({}); setShowModal(true); }}>
+                                    + Agregar
+                                </button>
+                            </div>
                         </div>
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Nombre Completo</th>
+                                    <th>Nombre</th>
                                     <th>Correo</th>
-                                    <th>Año Ingreso</th>
-                                    <th>Usuario</th>
+                                    <th>Año</th>
                                     <th>Horas</th>
+                                    <th>Badge</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {volunteers.map(vol => (
-                                    <tr key={vol.uid}>
-                                        <td>{vol.nombreCompleto}</td>
-                                        <td>{vol.correo}</td>
-                                        <td>{vol.anoIngreso}</td>
-                                        <td><strong>{vol.usuario}</strong></td>
-                                        <td>{vol.horasAcumuladas || 0} hrs</td>
-                                    </tr>
-                                ))}
+                                {filteredVolunteers.map(vol => {
+                                    const horas = calculateHorasVoluntario(vol.uid);
+                                    const badge = getBadge(horas);
+                                    const estado = vol.estado || 'activo';
+                                    
+                                    return (
+                                        <tr key={vol.uid}>
+                                            <td>{vol.nombreCompleto}</td>
+                                            <td>{vol.correo}</td>
+                                            <td>{vol.anoIngreso}</td>
+                                            <td>{horas.toFixed(1)} hrs</td>
+                                            <td><span className={`badge ${badge.class}`}>{badge.name}</span></td>
+                                            <td>
+                                                <span className={`badge badge-${estado === 'activo' ? 'active' : 'inactive'}`}>
+                                                    {estado}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <button 
+                                                    className={`btn ${estado === 'activo' ? 'btn-warning' : 'btn-success'}`}
+                                                    style={{marginRight: '5px'}}
+                                                    onClick={() => handleToggleStatus(vol.uid, estado)}
+                                                >
+                                                    {estado === 'activo' ? 'Desactivar' : 'Activar'}
+                                                </button>
+                                                <button 
+                                                    className="btn btn-delete" 
+                                                    onClick={() => handleDeleteVolunteer(vol.uid)}
+                                                >
+                                                    Eliminar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </div>
@@ -930,7 +1238,7 @@
                     <div className="table-container">
                         <div className="table-header">
                             <h2>Gestión de Actividades</h2>
-                            <button className="btn btn-add" onClick={() => { setModalType('addActivity'); setShowModal(true); }}>
+                            <button className="btn btn-add" onClick={() => { setModalType('addActivity'); setFormData({}); setShowModal(true); }}>
                                 + Crear Actividad
                             </button>
                         </div>
@@ -939,6 +1247,7 @@
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Fecha</th>
+                                    <th>Horario</th>
                                     <th>Lugar</th>
                                     <th>Inscritos</th>
                                     <th>Estado</th>
@@ -950,14 +1259,18 @@
                                     <tr key={act.id}>
                                         <td>{act.nombre}</td>
                                         <td>{new Date(act.fecha).toLocaleDateString('es-PE')}</td>
+                                        <td>{act.horaInicio && act.horaFin ? `${act.horaInicio} - ${act.horaFin}` : '-'}</td>
                                         <td>{act.lugar}</td>
-                                        <td>{act.inscritos ? Object.keys(act.inscritos).length : 0} voluntarios</td>
+                                        <td>{act.inscritos ? Object.keys(act.inscritos).length : 0}</td>
                                         <td>
                                             <span className={`badge badge-${act.estado === 'activa' ? 'active' : 'inactive'}`}>
                                                 {act.estado}
                                             </span>
                                         </td>
                                         <td>
+                                            <button className="btn btn-success" style={{marginRight: '5px'}} onClick={() => handleViewInscritos(act)}>
+                                                Ver Inscritos
+                                            </button>
                                             <button className="btn btn-edit" style={{marginRight: '5px'}} onClick={() => handleEditActivity(act)}>
                                                 Editar
                                             </button>
@@ -975,21 +1288,18 @@
 
             const renderReports = () => {
                 const monthlyData = volunteers.map(vol => {
-                    const totalHoras = activities.reduce((sum, act) => {
-                        if (act.asistencias && act.asistencias[vol.uid]) {
-                            return sum + (act.asistencias[vol.uid].horasAprobadas || 0);
-                        }
-                        return sum;
-                    }, 0);
-                    
+                    const totalHoras = calculateHorasVoluntario(vol.uid);
+                    const badge = getBadge(totalHoras);
                     const actividadesCount = activities.filter(act => 
-                        act.asistencias && act.asistencias[vol.uid]
+                        act.asistencias && act.asistencias[vol.uid] && act.asistencias[vol.uid].estado === 'asistio'
                     ).length;
 
                     return {
                         voluntario: vol.nombreCompleto,
+                        estado: vol.estado || 'activo',
                         actividades: actividadesCount,
-                        horasTotales: totalHoras
+                        horasTotales: totalHoras,
+                        badge: badge.name
                     };
                 });
 
@@ -997,7 +1307,7 @@
                     <div>
                         <div className="table-container">
                             <div className="table-header">
-                                <h2>Reporte Mensual de Actividades</h2>
+                                <h2>Reporte de Voluntarios</h2>
                                 <button className="btn btn-success" onClick={exportToExcel}>
                                     📥 Exportar a Excel
                                 </button>
@@ -1006,16 +1316,24 @@
                                 <thead>
                                     <tr>
                                         <th>Voluntario</th>
-                                        <th>Actividades Participadas</th>
+                                        <th>Estado</th>
+                                        <th>Actividades</th>
                                         <th>Horas Totales</th>
+                                        <th>Badge</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {monthlyData.map((data, idx) => (
                                         <tr key={idx}>
                                             <td>{data.voluntario}</td>
+                                            <td>
+                                                <span className={`badge badge-${data.estado === 'activo' ? 'active' : 'inactive'}`}>
+                                                    {data.estado}
+                                                </span>
+                                            </td>
                                             <td>{data.actividades}</td>
                                             <td><strong>{data.horasTotales.toFixed(2)} hrs</strong></td>
+                                            <td>{data.badge}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -1023,6 +1341,197 @@
                         </div>
                     </div>
                 );
+            };
+
+            const renderModalContent = () => {
+                if (modalType === 'addVolunteer') {
+                    return (
+                        <>
+                            <h2>Agregar Nuevo Voluntario</h2>
+                            <div className="form-group">
+                                <label>Nombre Completo</label>
+                                <input 
+                                    type="text"
+                                    value={formData.nombreCompleto || ''}
+                                    onChange={(e) => setFormData({...formData, nombreCompleto: e.target.value})}
+                                    placeholder="Ej: Juan Carlos Pérez García"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Correo Electrónico</label>
+                                <input 
+                                    type="email"
+                                    value={formData.correo || ''}
+                                    onChange={(e) => setFormData({...formData, correo: e.target.value})}
+                                    placeholder="correo@ejemplo.com"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Año de Ingreso</label>
+                                <input 
+                                    type="number"
+                                    value={formData.anoIngreso || ''}
+                                    onChange={(e) => setFormData({...formData, anoIngreso: e.target.value})}
+                                    placeholder="2024"
+                                    min="2000"
+                                    max="2030"
+                                />
+                            </div>
+                            <div className="modal-buttons">
+                                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                                    Cancelar
+                                </button>
+                                <button className="btn btn-add" onClick={handleAddVolunteer}>
+                                    Agregar
+                                </button>
+                            </div>
+                        </>
+                    );
+                }
+
+                if (modalType === 'addActivity' || modalType === 'editActivity') {
+                    return (
+                        <>
+                            <h2>{modalType === 'addActivity' ? 'Crear Nueva Actividad' : 'Editar Actividad'}</h2>
+                            <div className="form-group">
+                                <label>Nombre de Actividad</label>
+                                <input 
+                                    type="text"
+                                    value={formData.nombre || ''}
+                                    onChange={(e) => setFormData({...formData, nombre: e.target.value})}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Descripción</label>
+                                <textarea 
+                                    value={formData.descripcion || ''}
+                                    onChange={(e) => setFormData({...formData, descripcion: e.target.value})}
+                                    rows="3"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Lugar</label>
+                                <input 
+                                    type="text"
+                                    value={formData.lugar || ''}
+                                    onChange={(e) => setFormData({...formData, lugar: e.target.value})}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Fecha</label>
+                                <input 
+                                    type="date"
+                                    value={formData.fecha || ''}
+                                    onChange={(e) => setFormData({...formData, fecha: e.target.value})}
+                                />
+                            </div>
+                            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px'}}>
+                                <div className="form-group">
+                                    <label>Hora Inicio (opcional)</label>
+                                    <input 
+                                        type="time"
+                                        value={formData.horaInicio || ''}
+                                        onChange={(e) => setFormData({...formData, horaInicio: e.target.value})}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Hora Fin (opcional)</label>
+                                    <input 
+                                        type="time"
+                                        value={formData.horaFin || ''}
+                                        onChange={(e) => setFormData({...formData, horaFin: e.target.value})}
+                                    />
+                                </div>
+                            </div>
+                            <div className="modal-buttons">
+                                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                                    Cancelar
+                                </button>
+                                <button className="btn btn-add" onClick={modalType === 'addActivity' ? handleAddActivity : handleUpdateActivity}>
+                                    {modalType === 'addActivity' ? 'Crear' : 'Guardar'}
+                                </button>
+                            </div>
+                        </>
+                    );
+                }
+
+                if (modalType === 'viewInscritos' && selectedActivity) {
+                    const inscritos = selectedActivity.inscritos ? Object.keys(selectedActivity.inscritos) : [];
+                    
+                    return (
+                        <>
+                            <h2>Voluntarios Inscritos - {selectedActivity.nombre}</h2>
+                            <p style={{color: '#666', marginBottom: '20px'}}>
+                                {selectedActivity.fecha} | {selectedActivity.horaInicio && selectedActivity.horaFin ? `${selectedActivity.horaInicio} - ${selectedActivity.horaFin}` : 'Sin horario'}
+                            </p>
+                            
+                            {inscritos.length === 0 ? (
+                                <p style={{textAlign: 'center', padding: '20px', color: '#999'}}>
+                                    No hay voluntarios inscritos en esta actividad
+                                </p>
+                            ) : (
+                                <div className="inscritos-list">
+                                    {inscritos.map(uid => {
+                                        const vol = volunteers.find(v => v.uid === uid);
+                                        if (!vol) return null;
+                                        
+                                        const asistencia = selectedActivity.asistencias?.[uid] || {};
+                                        const estado = asistencia.estado || 'pendiente';
+                                        const horas = asistencia.horasAprobadas || 0;
+                                        
+                                        return (
+                                            <div key={uid} className="inscrito-item">
+                                                <div className="inscrito-info">
+                                                    <div style={{fontWeight: 'bold', marginBottom: '5px'}}>
+                                                        {vol.nombreCompleto}
+                                                    </div>
+                                                    <div style={{fontSize: '14px', color: '#666'}}>
+                                                        {estado === 'asistio' ? '✅ Asistió' : estado === 'no_asistio' ? '❌ No asistió' : '⏳ Pendiente'}
+                                                        {estado === 'asistio' && ` - ${horas.toFixed(2)} horas`}
+                                                    </div>
+                                                </div>
+                                                <div className="inscrito-actions">
+                                                    <button 
+                                                        className={`btn ${estado === 'asistio' ? 'btn-warning' : 'btn-success'}`}
+                                                        onClick={() => handleToggleAsistencia(selectedActivity.id, uid, estado)}
+                                                    >
+                                                        {estado === 'asistio' ? 'Marcar No Asistió' : 'Marcar Asistió'}
+                                                    </button>
+                                                    {estado === 'asistio' && (
+                                                        <div style={{display: 'flex', gap: '5px', alignItems: 'center'}}>
+                                                            <input 
+                                                                type="number"
+                                                                className="time-input"
+                                                                placeholder="Horas"
+                                                                defaultValue={horas}
+                                                                step="0.5"
+                                                                min="0"
+                                                                onBlur={(e) => {
+                                                                    if (e.target.value && e.target.value !== horas.toString()) {
+                                                                        handleUpdateHoras(selectedActivity.id, uid, e.target.value);
+                                                                    }
+                                                                }}
+                                                            />
+                                                            <span style={{fontSize: '12px'}}>hrs</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                            
+                            <div className="modal-buttons">
+                                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                                    Cerrar
+                                </button>
+                            </div>
+                        </>
+                    );
+                }
+
+                return null;
             };
 
             if (loading) {
@@ -1070,143 +1579,7 @@
                     {showModal && (
                         <div className="modal-overlay" onClick={() => setShowModal(false)}>
                             <div className="modal" onClick={(e) => e.stopPropagation()}>
-                                {modalType === 'addVolunteer' && (
-                                    <>
-                                        <h2>Agregar Nuevo Voluntario</h2>
-                                        <div className="form-group">
-                                            <label>Nombre Completo</label>
-                                            <input 
-                                                type="text"
-                                                value={formData.nombreCompleto || ''}
-                                                onChange={(e) => setFormData({...formData, nombreCompleto: e.target.value})}
-                                                placeholder="Ej: Juan Carlos Pérez García"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Correo Electrónico</label>
-                                            <input 
-                                                type="email"
-                                                value={formData.correo || ''}
-                                                onChange={(e) => setFormData({...formData, correo: e.target.value})}
-                                                placeholder="correo@ejemplo.com"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Año de Ingreso</label>
-                                            <input 
-                                                type="number"
-                                                value={formData.anoIngreso || ''}
-                                                onChange={(e) => setFormData({...formData, anoIngreso: e.target.value})}
-                                                placeholder="2024"
-                                                min="2000"
-                                                max="2030"
-                                            />
-                                        </div>
-                                        <div className="modal-buttons">
-                                            <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
-                                                Cancelar
-                                            </button>
-                                            <button className="btn btn-add" onClick={handleAddVolunteer}>
-                                                Agregar Voluntario
-                                            </button>
-                                        </div>
-                                    </>
-                                )}
-
-                                {modalType === 'addActivity' && (
-                                    <>
-                                        <h2>Crear Nueva Actividad</h2>
-                                        <div className="form-group">
-                                            <label>Nombre de Actividad</label>
-                                            <input 
-                                                type="text"
-                                                value={formData.nombre || ''}
-                                                onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-                                                placeholder="Ej: Campaña de Donación de Sangre"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Descripción</label>
-                                            <input 
-                                                type="text"
-                                                value={formData.descripcion || ''}
-                                                onChange={(e) => setFormData({...formData, descripcion: e.target.value})}
-                                                placeholder="Descripción de la actividad"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Lugar</label>
-                                            <input 
-                                                type="text"
-                                                value={formData.lugar || ''}
-                                                onChange={(e) => setFormData({...formData, lugar: e.target.value})}
-                                                placeholder="Ubicación de la actividad"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Fecha</label>
-                                            <input 
-                                                type="date"
-                                                value={formData.fecha || ''}
-                                                onChange={(e) => setFormData({...formData, fecha: e.target.value})}
-                                            />
-                                        </div>
-                                        <div className="modal-buttons">
-                                            <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
-                                                Cancelar
-                                            </button>
-                                            <button className="btn btn-add" onClick={handleAddActivity}>
-                                                Crear Actividad
-                                            </button>
-                                        </div>
-                                    </>
-                                )}
-
-                                {modalType === 'editActivity' && (
-                                    <>
-                                        <h2>Editar Actividad</h2>
-                                        <div className="form-group">
-                                            <label>Nombre de Actividad</label>
-                                            <input 
-                                                type="text"
-                                                value={formData.nombre || ''}
-                                                onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Descripción</label>
-                                            <input 
-                                                type="text"
-                                                value={formData.descripcion || ''}
-                                                onChange={(e) => setFormData({...formData, descripcion: e.target.value})}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Lugar</label>
-                                            <input 
-                                                type="text"
-                                                value={formData.lugar || ''}
-                                                onChange={(e) => setFormData({...formData, lugar: e.target.value})}
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Fecha</label>
-                                            <input 
-                                                type="date"
-                                                value={formData.fecha || ''}
-                                                onChange={(e) => setFormData({...formData, fecha: e.target.value})}
-                                            />
-                                        </div>
-                                        <div className="modal-buttons">
-                                            <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
-                                                Cancelar
-                                            </button>
-                                            <button className="btn btn-add" onClick={handleUpdateActivity}>
-                                                Guardar Cambios
-                                            </button>
-                                        </div>
-                                    </>
-                                )}
+                                {renderModalContent()}
                             </div>
                         </div>
                     )}
@@ -1215,7 +1588,7 @@
         }
 
         // ==========================================
-        // VOLUNTARIO DASHBOARD
+        // VOLUNTARIO DASHBOARD (Simplified - same as before)
         // ==========================================
         function VoluntarioDashboard({ user, onLogout }) {
             const [activeTab, setActiveTab] = useState('dashboard');
@@ -1290,7 +1663,8 @@
                     await database.ref(`actividades/${activityId}/asistencias/${user.uid}`).set({
                         entrada: new Date().toISOString(),
                         salida: null,
-                        horasAprobadas: 0
+                        horasAprobadas: 0,
+                        estado: 'asistio'
                     });
                     alert('Entrada registrada: ' + new Date().toLocaleTimeString('es-PE'));
                 } catch (error) {
@@ -1314,21 +1688,26 @@
                             horasAprobadas: parseFloat(diffHours.toFixed(2))
                         });
                         
-                        alert(`Salida registrada: ${salidaDate.toLocaleTimeString('es-PE')}\nHoras: ${diffHours.toFixed(2)} hrs`);
+                        alert(`Salida registrada\nHoras: ${diffHours.toFixed(2)} hrs`);
                     }
                 } catch (error) {
                     alert('Error al marcar salida');
                 }
             };
 
-            const renderDashboard = () => {
-                const myActivities = activities.filter(a => a.inscritos && a.inscritos[user.uid]);
-                const totalHoras = myActivities.reduce((sum, act) => {
-                    if (act.asistencias && act.asistencias[user.uid]) {
+            const calculateMyHoras = () => {
+                return activities.reduce((sum, act) => {
+                    if (act.asistencias && act.asistencias[user.uid] && act.asistencias[user.uid].estado === 'asistio') {
                         return sum + (act.asistencias[user.uid].horasAprobadas || 0);
                     }
                     return sum;
                 }, 0);
+            };
+
+            const renderDashboard = () => {
+                const myActivities = activities.filter(a => a.inscritos && a.inscritos[user.uid]);
+                const totalHoras = calculateMyHoras();
+                const badge = getBadge(totalHoras);
 
                 return (
                     <div>
@@ -1343,8 +1722,10 @@
                                 <div className="value">{totalHoras.toFixed(1)}</div>
                             </div>
                             <div className="stat-card">
-                                <h3>Año de Ingreso</h3>
-                                <div className="value">{user.anoIngreso}</div>
+                                <h3>Tu Badge</h3>
+                                <div className="value" style={{fontSize: '24px'}}>
+                                    <span className={`badge ${badge.class}`}>{badge.name}</span>
+                                </div>
                             </div>
                         </div>
 
@@ -1358,22 +1739,23 @@
                                         <th>Actividad</th>
                                         <th>Fecha</th>
                                         <th>Lugar</th>
+                                        <th>Asistencia</th>
                                         <th>Horas</th>
-                                        <th>Estado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {myActivities.map(act => {
                                         const attendance = act.asistencias && act.asistencias[user.uid];
+                                        const estado = attendance?.estado || 'pendiente';
                                         return (
                                             <tr key={act.id}>
                                                 <td>{act.nombre}</td>
                                                 <td>{new Date(act.fecha).toLocaleDateString('es-PE')}</td>
                                                 <td>{act.lugar}</td>
-                                                <td>{attendance?.horasAprobadas || 0} hrs</td>
                                                 <td>
-                                                    <span className="badge badge-active">Inscrito</span>
+                                                    {estado === 'asistio' ? '✅ Asistió' : estado === 'no_asistio' ? '❌ No asistió' : '⏳ Pendiente'}
                                                 </td>
+                                                <td>{attendance?.horasAprobadas || 0} hrs</td>
                                             </tr>
                                         );
                                     })}
@@ -1391,10 +1773,10 @@
                     <div>
                         <h2 style={{marginBottom: '20px', color: '#333'}}>Actividades Disponibles</h2>
                         
-                        <div style={{background: '#fff3cd', padding: '15px', borderRadius: '10px', marginBottom: '25px', border: '2px solid #C9962A'}}>
+                        <div style={{background: '#fff3cd', padding: '15px', borderRadius: '10px', marginBottom: '25px'}}>
                             <strong style={{color: '#856404'}}>ℹ️ Importante:</strong>
                             <p style={{margin: '10px 0 0 0', color: '#856404', fontSize: '14px'}}>
-                                Los botones de <strong>Marcar Entrada</strong> y <strong>Marcar Salida</strong> solo aparecen el día de la actividad.
+                                Los botones de Marcar Entrada/Salida solo aparecen el día de la actividad.
                             </p>
                         </div>
                         
@@ -1414,7 +1796,7 @@
                                     <div className="activity-info">
                                         <div>📍 <strong>Lugar:</strong> {act.lugar}</div>
                                         <div>📅 <strong>Fecha:</strong> {new Date(act.fecha).toLocaleDateString('es-PE')}</div>
-                                        <div>👥 <strong>Inscritos:</strong> {act.inscritos ? Object.keys(act.inscritos).length : 0}</div>
+                                        <div>🕐 <strong>Horario:</strong> {act.horaInicio && act.horaFin ? `${act.horaInicio} - ${act.horaFin}` : 'Por definir'}</div>
                                         <div>
                                             {isInscrito ? (
                                                 <span className="badge badge-active">✓ Inscrito</span>
@@ -1509,13 +1891,11 @@
                             <div className="modal" style={{maxWidth: '500px'}}>
                                 <h2 style={{color: '#C8102E', marginBottom: '15px'}}>🔒 Cambio de Contraseña Obligatorio</h2>
                                 <p style={{color: '#666', marginBottom: '25px', fontSize: '14px'}}>
-                                    Por seguridad, debes cambiar tu contraseña temporal por una propia.
+                                    Por seguridad, debes cambiar tu contraseña temporal.
                                 </p>
                                 
                                 {passwordError && (
-                                    <div className="error-message" style={{marginBottom: '15px'}}>
-                                        {passwordError}
-                                    </div>
+                                    <div className="error-message">{passwordError}</div>
                                 )}
 
                                 <div className="form-group">
@@ -1525,29 +1905,17 @@
                                         value={newPassword}
                                         onChange={(e) => setNewPassword(e.target.value)}
                                         placeholder="Mínimo 6 caracteres"
-                                        autoFocus
                                     />
                                 </div>
 
                                 <div className="form-group">
-                                    <label>Confirmar Nueva Contraseña</label>
+                                    <label>Confirmar Contraseña</label>
                                     <input 
                                         type="password"
                                         value={confirmPassword}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                         placeholder="Repite la contraseña"
-                                        onKeyPress={(e) => {
-                                            if (e.key === 'Enter') handleChangePassword();
-                                        }}
                                     />
-                                </div>
-
-                                <div style={{background: '#fff3cd', padding: '12px', borderRadius: '8px', marginBottom: '20px', fontSize: '13px'}}>
-                                    <strong>Requisitos:</strong>
-                                    <ul style={{margin: '8px 0 0 20px', color: '#856404'}}>
-                                        <li>Mínimo 6 caracteres</li>
-                                        <li>Diferente a "temporal123"</li>
-                                    </ul>
                                 </div>
 
                                 <button className="btn btn-add" style={{width: '100%'}} onClick={handleChangePassword}>
